@@ -70,9 +70,12 @@ pip install -r requirements.txt
 *Run both backend and frontend in parallel*:
 
 ```bash
-# ▶️ Start the FastAPI backend (localhost:8000)
+# ▶️ Start the FastAPI backend (localhost:8000):
+uvicorn backend.main:app --reload
 
-# ▶️ Start the Streamlit frontend (localhost:8501)
+# ▶️ Start the Streamlit frontend (localhost:8501):
 streamlit run dashboard.py
 
 ```
+
+### Made by @R1N1X
