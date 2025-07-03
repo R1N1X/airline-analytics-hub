@@ -1,16 +1,16 @@
-# === Web Frameworks ===
+
 streamlit>=1.30.0,<2.0
 fastapi>=0.100.0,<1.0
 uvicorn[standard]>=0.29.0,<1.0
 
-# === Data & Visualization ===
+
 pandas>=2.2.0,<3.0
 plotly>=5.20.0,<6.0
 numpy>=1.25.0,<2.0
 
-# === API & Utilities ===
+
 requests>=2.31.0,<3.0
 python-dotenv>=1.0.0,<2.0
 
-# === OpenAI SDK ===
+
 openai>=1.0.0,<2.0
