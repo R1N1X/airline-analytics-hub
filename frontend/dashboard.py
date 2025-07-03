@@ -37,11 +37,13 @@ st.markdown("""
     }
     
     .insight-box {
-        background: #f8f9fa;
+        background: #23272f; /* dark background */
+        color: #fff !important; /* white text */
         padding: 1.5rem;
         border-radius: 10px;
         border-left: 4px solid #28a745;
         margin: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     
     .stTabs [data-baseweb="tab-list"] {
@@ -52,6 +54,20 @@ st.markdown("""
         height: 50px;
         padding-left: 20px;
         padding-right: 20px;
+    }
+    
+    .footer-bar {
+        text-align: center;
+        color: #b0b8c1;
+        padding: 20px 10px 10px 10px;
+        font-size: 1.05rem;
+        border-radius: 0 0 10px 10px;
+        margin-top: 30px;
+        background: transparent !important; /* remove white background */
+    }
+    
+    @keyframes spin {
+      100% { transform: rotate(360deg);}
     }
 </style>
 """, unsafe_allow_html=True)
@@ -118,6 +134,75 @@ def fetch_flight_insights(flight_number):
         return res.json().get("insights", "")
     except Exception:
         return f"Insights for flight {flight_number} temporarily unavailable"
+
+def generate_market_insights(df):
+    total_flights = len(df)
+    average_price = df['price'].mean() if 'price' in df.columns and df['price'].notna().any() else 0
+    top_airline = df['airline'].mode().iloc[0] if 'airline' in df.columns and not df['airline'].mode().empty else "N/A"
+    if 'origin' in df.columns and 'destination' in df.columns:
+        df['route'] = df['origin'] + "–" + df['destination']
+        top_route = df['route'].mode().iloc[0] if not df['route'].mode().empty else "N/A"
+        route_count = df['route'].nunique()
+    else:
+        top_route = "N/A"
+        route_count = 0
+    unique_airlines = df['airline'].nunique() if 'airline' in df.columns else 0
+
+    # Price trend
+    price_trend = "stable"
+    if 'price' in df.columns and df['price'].notna().sum() > 1:
+        price_diff = df['price'].iloc[-1] - df['price'].iloc[0]
+        if price_diff > 2:
+            price_trend = "rising"
+        elif price_diff < -2:
+            price_trend = "declining"
+
+    report = (
+        f"The domestic flight sector has maintained a robust level of activity, with {total_flights} flights recorded in the last week. "
+        f"{top_airline} continues to lead in operational frequency, reflecting strong market presence and network reach. "
+        f"The {top_route} corridor remains highly trafficked, suggesting sustained demand and potential market saturation on this route. "
+        f"\n\nTicket prices are currently averaging ${average_price:.2f}, with the overall trend appearing {price_trend}. "
+        f"Full-service carriers may be driving higher averages, while budget airlines remain competitive, especially on high-density routes. "
+        f"\n\nThe market supports {unique_airlines} active airlines and {route_count} unique routes, indicating healthy competition and operational diversity. "
+        f"Opportunities may exist for expansion into under-served regional connections, particularly in emerging tier-2 city markets. "
+        f"\n\nStrategically, airlines should consider dynamic pricing on saturated routes and targeted promotions for new or less competitive connections. "
+        f"Monitoring price sensitivity and route performance will be key to capturing market share in the coming weeks."
+    )
+    return report
+
+def generate_bullet_insights(df):
+    insights = []
+    # 1. Flight volume trend
+    if len(df) > 0:
+        insights.append(f"📈 There were {len(df)} flights in the last week, indicating steady demand.")
+    # 2. Top airline
+    if 'airline' in df.columns and not df['airline'].mode().empty:
+        top_airline = df['airline'].mode().iloc[0]
+        count = (df['airline'] == top_airline).sum()
+        insights.append(f"✈️ {top_airline} operated the most flights ({count}), maintaining market leadership.")
+    # 3. Price trend
+    if 'price' in df.columns and df['price'].notna().sum() > 1:
+        price_diff = df['price'].iloc[-1] - df['price'].iloc[0]
+        if price_diff > 2:
+            trend = "rising"
+        elif price_diff < -2:
+            trend = "declining"
+        else:
+            trend = "stable"
+        avg_price = df['price'].mean()
+        insights.append(f"💡 Average ticket price is ${avg_price:.2f} and appears {trend}.")
+    # 4. Popular route
+    if 'origin' in df.columns and 'destination' in df.columns:
+        df['route'] = df['origin'] + "–" + df['destination']
+        if not df['route'].mode().empty:
+            top_route = df['route'].mode().iloc[0]
+            route_count = (df['route'] == top_route).sum()
+            insights.append(f"📊 The busiest route is {top_route} ({route_count} flights).")
+    # 5. Market diversity
+    if 'airline' in df.columns:
+        unique_airlines = df['airline'].nunique()
+        insights.append(f"🧭 {unique_airlines} airlines are active, supporting a competitive market.")
+    return insights
 
 # ======== Auto-refresh Logic ========
 if auto_refresh:
@@ -286,19 +371,19 @@ with tab2:
 
 with tab3:
     st.markdown("### 🧠 AI-Powered Market Insights")
-    
     with st.spinner("🤖 Generating AI insights..."):
-        insights = fetch_insights()
-    
-    if insights and insights != "Insights temporarily unavailable":
-        st.markdown(f"""
-        <div class="insight-box">
-            <h4>🎯 Market Intelligence</h4>
-            <p>{insights}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.info("🤖 AI insights are being generated. Please check back in a moment.")
+        if len(df) > 0:
+            bullet_insights = generate_bullet_insights(df)
+        else:
+            bullet_insights = ["No data available for insights."]
+    st.markdown("""
+    <div class="insight-box">
+        <h4>🎯 Market Intelligence</h4>
+        <ul>
+        {}
+        </ul>
+    </div>
+    """.format("".join([f"<li>{insight}</li>" for insight in bullet_insights])), unsafe_allow_html=True)
     
     # Additional insights section
     st.markdown("#### 📊 Data-Driven Insights")
@@ -376,17 +461,55 @@ with tab4:
         st.warning("Flight number data not available for individual analysis.")
 
 # ======== Footer ========
-st.markdown("---")
+footer_icon = (
+    "<span style='display:inline-block; animation:spin 1s linear infinite;'>🔄</span>"
+    if auto_refresh else "🔄"
+)
 st.markdown("""
-<div style='text-align: center; color: #666; padding: 20px;'>
-    <p>✈️ Airline Analytics Hub | Last Updated: {} | 🔄 Auto-refresh: {}</p>
-</div>
-""".format(
-    datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "Enabled" if auto_refresh else "Disabled"
-), unsafe_allow_html=True)
+<style>
+@keyframes spin {
+  100% { transform: rotate(360deg);}
+}
+.footer-bar {
+    text-align: center;
+    color: #b0b8c1;
+    padding: 20px 10px 10px 10px;
+    font-size: 1.05rem;
+    border-radius: 0 0 10px 10px;
+    margin-top: 30px;
+    background: transparent !important; /* remove white background */
+}
+</style>
+""", unsafe_allow_html=True)
 
-# ======== Auto-refresh mechanism ========
+st.markdown(f"""
+<div class='footer-bar'>
+    <p>✈️ <b>Airline Analytics Hub</b> | Last Updated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}<br>
+    {footer_icon} Auto-refresh: <b>{"Enabled" if auto_refresh else "Disabled"}</b>
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ======== Auto-refresh mechanism with countdown ========
 if auto_refresh:
+    import streamlit.components.v1 as components
+    # Show a countdown timer for next refresh
+    countdown_html = """
+    <script>
+    let seconds = 30;
+    function updateTimer() {
+        if (seconds > 0) {
+            document.getElementById("refresh-timer").innerText = seconds + "s";
+            seconds--;
+            setTimeout(updateTimer, 1000);
+        }
+    }
+    updateTimer();
+    </script>
+    <div style='text-align:center; color:#2a5298; font-size:1.1rem;'>
+        ⏳ Next refresh in <span id="refresh-timer">30s</span>
+    </div>
+    """
+    components.html(countdown_html, height=40)
     time.sleep(30)
     st.rerun()

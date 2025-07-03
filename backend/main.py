@@ -1,5 +1,3 @@
-# backend/main.py
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from backend.data_fetcher import fetch_flight_data
@@ -20,8 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ROUTES
-
+# HEALTH ENDPOINTS
 @app.get("/", tags=["Health"])
 def root():
     return {"message": "🚀 Airline Demand API is running"}
@@ -30,24 +27,28 @@ def root():
 def health_check():
     return {"status": "healthy"}
 
+# FLIGHT DATA
 @app.get("/flights", tags=["Flights"])
 def get_flights(limit: int = 50):
     flights = fetch_flight_data(limit=limit)
+    if not flights:
+        return {"flights": [], "message": "❌ No flight data available. Please check your API connection."}
     return {"flights": flights}
 
 @app.get("/flights/{flight_number}", tags=["Flights"])
 def get_flight_by_number(flight_number: str):
-    flights = fetch_flight_data(limit=50)
-    for flight in flights:
-        if flight['flight_number'] == flight_number:
-            return {"flight": flight}
+    flights = fetch_flight_data(limit=100)
+    flight = next((f for f in flights if f['flight_number'] == flight_number), None)
+    if flight:
+        return {"flight": flight}
     raise HTTPException(status_code=404, detail="Flight not found")
 
+# AI INSIGHTS
 @app.get("/insights", tags=["Insights"])
 def get_insights(limit: int = 30):
     flights = fetch_flight_data(limit=limit)
-    insights = generate_insights(flights)
-    return {"insights": insights}
+    result = generate_insights(flights)
+    return result
 
 @app.get("/insights/{flight_number}", tags=["Insights"])
 def get_insights_by_flight(flight_number: str):
@@ -57,8 +58,14 @@ def get_insights_by_flight(flight_number: str):
     if not flight_data:
         raise HTTPException(status_code=404, detail="Flight not found")
 
-    insights = generate_insights([flight_data])
-    return {"flight_number": flight_number, "insights": insights}
+    result = generate_insights([flight_data])
+    result["flight_number"] = flight_number
+    return result
+
+# REDIRECT TO SWAGGER DOCS (OPTIONAL)
 @app.get("/docs", include_in_schema=False)
 def get_docs():
     return {"message": "API documentation is available at /docs"}
+@app.get("/redoc", include_in_schema=False)
+def get_redoc():
+    return {"message": "API documentation is available at /redoc"}
