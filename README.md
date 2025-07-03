@@ -34,5 +34,5 @@ A full-stack airline market analytics dashboard built with **Streamlit** and **F
 ### 1️⃣ Clone the Repo
 
 ```bash
-git clone https://github.com/<your-username>/airline-analytics-hub.git
+git clone https://github.com/R1N1X/airline-analytics-hub.git
 cd airline-analytics-hub
