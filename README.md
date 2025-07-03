@@ -36,3 +36,28 @@ A full-stack airline market analytics dashboard built with **Streamlit** and **F
 ```bash
 git clone https://github.com/R1N1X/airline-analytics-hub.git
 cd airline-analytics-hub
+```
+### 2️⃣ Setup Environment Variables
+API_KEY=your_aviationstack_api_key
+OPENAI_API_KEY=your_openai_api_key
+
+-----
+
+### 3️⃣ Install Requirements
+
+```bash
+pip install -r requirements.txt
+
+```
+
+###  4️⃣ Run the Application
+
+```bash
+▶️ Start the FastAPI backend (port 8000)
+uvicorn backend.main:app --reload
+
+▶️ Start the Streamlit frontend (port 8501)
+streamlit run dashboard.py
+
+```
+
