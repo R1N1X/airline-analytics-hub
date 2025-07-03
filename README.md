@@ -13,8 +13,8 @@ A full-stack airline market analytics dashboard built with Streamlit and FastAPI
 - **AI Market Insights** — OpenAI GPT-driven intelligence
 - **Route & Airline Analytics** — charts, KPIs, deep dives
 - **Flight-level Analysis** —  individual flight summaries
-- **Export & Filters ** — download CSV, filter flights
-- **Auto-Refresh Mode ** — real-time updates every 30s
+- **Export & Filters** — download CSV, filter flights
+- **Auto-Refresh Mode** — real-time updates every 30s
 
 ---
 
