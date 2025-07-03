@@ -1,18 +1,20 @@
 # ✈️ Airline Analytics Hub
 
-A full-stack airline market analytics dashboard built with **Streamlit** and **FastAPI**, powered by **OpenAI GPT** for intelligent insights and **AviationStack API** for real-time flight data.
+A full-stack airline market analytics dashboard built with Streamlit and FastAPI, powered by OpenAI GPT for intelligent insights and **AviationStack API** for real-time flight data.
+
+
 
 ---
 
 ## 📊 Features
 
-- **Live Flight Data** — from AviationStack
-- **Interactive Dashboard** — built in Streamlit
-- **AI-Powered Market Insights** — via OpenAI's GPT
-- **Route & Airline Analytics** — charts, KPIs, tables
-- **Flight-level Deep Dive** — per-flight insights and metrics
-- **Export & Filtering** — CSV downloads and multi-filters
-- **Auto-Refresh Mode** — real-time updates every 30s
+- **Live Flight Data** — powered by AviationStack
+- **Interactive Dashboard** — Streamlit-based UI
+- **AI Market Insights** — OpenAI GPT-driven intelligence
+- **Route & Airline Analytics** — charts, KPIs, deep dives
+- **Flight-level Analysis** —  individual flight summaries
+- **Export & Filters ** — download CSV, filter flights
+- **Auto-Refresh Mode ** — real-time updates every 30s
 
 ---
 
@@ -31,33 +33,46 @@ A full-stack airline market analytics dashboard built with **Streamlit** and **F
 
 ## 🚀 Getting Started
 
-### 1️⃣ Clone the Repo
+### 1️⃣ Clone the Repo:
 
 ```bash
 git clone https://github.com/R1N1X/airline-analytics-hub.git
 cd airline-analytics-hub
 ```
-### 2️⃣ Setup Environment Variables
+### 2️⃣ Setup Environment Variables:
+*Create a .env file in the root directory*:
 API_KEY=your_aviationstack_api_key
 OPENAI_API_KEY=your_openai_api_key
 
 -----
 
-### 3️⃣ Install Requirements
+### 3️⃣ Create & Activate Virtual Environment:
+*Windows OS*
 
 ```bash
-pip install -r requirements.txt
-
+python -m venv .venv
+.venv\Scripts\activate
+```
+*Mac OS*
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-###  4️⃣ Run the Application
+###  4️⃣ Install Requirements:
 
 ```bash
-▶️ Start the FastAPI backend (port 8000)
-uvicorn backend.main:app --reload
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-▶️ Start the Streamlit frontend (port 8501)
+### 5️⃣ Run the Application:
+*Run both backend and frontend in parallel*:
+
+```bash
+# ▶️ Start the FastAPI backend (localhost:8000)
+
+# ▶️ Start the Streamlit frontend (localhost:8501)
 streamlit run dashboard.py
 
 ```
-
