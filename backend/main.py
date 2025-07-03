@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from backend.data_fetcher import fetch_flight_data
-from backend.insights_api import generate_insights
+from data_fetcher import fetch_flight_data
+from insights_api import generate_insights
 
 app = FastAPI(
     title="Airline Demand API",
