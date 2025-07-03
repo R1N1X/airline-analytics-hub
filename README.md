@@ -1,6 +1,6 @@
 # ✈️ Airline Analytics Hub
 
-A full-stack airline market analytics dashboard built with Streamlit and FastAPI, powered by OpenAI GPT for intelligent insights and **AviationStack API** for real-time flight data.
+A full-stack airline market analytics dashboard built using **Streamlit** (frontend) and **FastAPI** (backend), enhanced with **OpenAI GPT** for smart insights and **AviationStack API** for real-time flight data.
 
 
 
@@ -8,13 +8,15 @@ A full-stack airline market analytics dashboard built with Streamlit and FastAPI
 
 ## 📊 Features
 
-- **Live Flight Data** — powered by AviationStack
-- **Interactive Dashboard** — Streamlit-based UI
-- **AI Market Insights** — OpenAI GPT-driven intelligence
-- **Route & Airline Analytics** — charts, KPIs, deep dives
-- **Flight-level Analysis** —  individual flight summaries
-- **Export & Filters** — download CSV, filter flights
-- **Auto-Refresh Mode** — real-time updates every 30s
+- **Live Flight Data** — from AviationStack API
+- **Interactive Analytics Dashboard** — built with Streamlit
+- **AI-Powered Market Insights** — via OpenAI GPT
+- **Route & Airline Visualizations** — KPIs, charts, route heatmaps
+- **Flight-level Intelligence** — individual flight summaries
+- **Export to CSV** — with filterable, sortable tables
+- **Auto-Refresh Mode** — auto-updates every 30 seconds
+- **Clean UI** — with HTML + CSS styling
+
 
 ---
 
@@ -27,7 +29,7 @@ A full-stack airline market analytics dashboard built with Streamlit and FastAPI
 | AI Engine   | [OpenAI GPT-3.5](https://platform.openai.com/) |
 | Flight Data | [AviationStack API](https://aviationstack.com/) |
 | Styling     | HTML + CSS in Streamlit |
-| Deployment  | (Optional) Vercel / Fly.io / Render |
+| Deployment  | [Render](https://render.com) + [Streamlit Cloud](https://streamlit.io/cloud) |
 
 ---
 
@@ -70,11 +72,11 @@ pip install -r requirements.txt
 *Run both backend and frontend in parallel*:
 
 ```bash
-# ▶️ Start the FastAPI backend (localhost:8000):
-uvicorn backend.main:app --reload
+# ▶️ Start FastAPI backend
+uvicorn backend.main:app --reload  # http://127.0.0.1:8000
 
-# ▶️ Start the Streamlit frontend (localhost:8501):
-streamlit run dashboard.py
+# ▶️ Start Streamlit frontend
+streamlit run frontend/dashboard.py  # http://localhost:8501
 
 ```
 
