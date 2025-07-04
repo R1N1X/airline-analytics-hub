@@ -1,45 +1,42 @@
-<<<<<<< HEAD
-__pycache__/\n*.pyc\n.env
-=======
-# Bytecode and cache
+# --- Bytecode and cache ---
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 
-# Virtual environments
+# --- Virtual environments ---
+.venv/
 venv/
-.env
-# Environment variables
+ENV/
+env/
+
+# --- Environment variables ---
 .env
 .env.*
+secrets.toml
 
-# System files
+# --- System files ---
 .DS_Store
 Thumbs.db
 
-# VS Code settings
+# --- VS Code ---
 .vscode/
 
-# Python test cache
-.pytest_cache/
-
-# Logs and temp
+# --- Logs & temp files ---
 *.log
 *.tmp
 
-# Jupyter
+# --- Jupyter ---
 .ipynb_checkpoints/
 
-# Streamlit
-.streamlit/config.toml
+# --- Streamlit ---
+.streamlit/
 
-# Build
+# --- Build & dist ---
 build/
 dist/
 *.egg-info/
 
-# OS generated
+# --- OS-generated ---
 *.swp
->>>>>>> 9ce77238f849d9d233f3fa00732f82641cf25b22
-.env
+*.swo
