@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+__pycache__/\n*.pyc\n.env
+=======
 # Bytecode and cache
 __pycache__/
 *.py[cod]
@@ -38,3 +41,5 @@ dist/
 
 # OS generated
 *.swp
+>>>>>>> 9ce77238f849d9d233f3fa00732f82641cf25b22
+.env
