@@ -73,7 +73,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ======== Configuration ========
-API_BASE = st.secrets.get("BACKEND_BASE", "http://127.0.0.1:8000")
+API_BASE = "http://127.0.0.1:8000"
 ##st.warning(f"🔗 Using API Base: {API_BASE}")(remove this when you want to debug)
 
 # ======== Header ========

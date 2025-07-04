@@ -1,38 +1,33 @@
-# backend/insights_api.py
-
 import os
-import json
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def generate_insights(flight_data: list) -> str:
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+def generate_insights(flights):
     try:
-        limited_data = flight_data[:20]
+        summary_data = f"Total flights: {len(flights)}\n"
+        airlines = list(set(f["airline"] for f in flights if f["airline"] != "N/A"))
+        summary_data += f"Airlines involved: {', '.join(airlines)}\n"
 
-        system_prompt = """
-        You are a data analyst specializing in airline demand and route optimization.
-        Analyze the provided flight data and generate clear insights about:
-        - Popular routes
-        - Busy times of day
-        - Any demand patterns or anomalies
-        Format insights in short bullet points.
-        """
-
-        user_prompt = f"Here is flight data:\n\n{json.dumps(limited_data, indent=2)}"
-
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            temperature=0.7,
-            messages=[
-                {"role": "system", "content": system_prompt.strip()},
-                {"role": "user", "content": user_prompt.strip()}
-            ]
+        prompt = (
+            "You are a market analyst for the aviation industry. "
+            "Analyze the following flight data and provide key trends, insights on airline activity, pricing strategies, and popular routes.\n\n"
+            f"{summary_data}\n\n"
+            "Give a concise summary with insights (max 100 words)."
         )
 
-        return response.choices[0].message.content.strip()
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are an aviation industry expert."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=300
+        )
 
+        return response.choices[0].message["content"]
     except Exception as e:
-        return f"❌ Error generating insights: {str(e)}"
+        return f"AI Insight error: {e}"

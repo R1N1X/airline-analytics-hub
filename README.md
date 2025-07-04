@@ -2,21 +2,18 @@
 
 A full-stack airline market analytics dashboard built using **Streamlit** (frontend) and **FastAPI** (backend), enhanced with **OpenAI GPT** for smart insights and **AviationStack API** for real-time flight data.
 
-
-
 ---
 
 ## 📊 Features
 
-- **Live Flight Data** — from AviationStack API
-- **Interactive Analytics Dashboard** — built with Streamlit
-- **AI-Powered Market Insights** — via OpenAI GPT
-- **Route & Airline Visualizations** — KPIs, charts, route heatmaps
-- **Flight-level Intelligence** — individual flight summaries
-- **Export to CSV** — with filterable, sortable tables
-- **Auto-Refresh Mode** — auto-updates every 30 seconds
-- **Clean UI** — with HTML + CSS styling
-
+- ✈️ **Live Flight Data** — via AviationStack API  
+- 📈 **Interactive Analytics Dashboard** — built in Streamlit  
+- 🧠 **AI-Powered Market Insights** — OpenAI GPT-powered summaries  
+- 🛬 **Route & Airline Visualizations** — KPIs, charts, route popularity  
+- 🔍 **Flight-level Intelligence** — view AI insights for each flight  
+- 📥 **Export to CSV** — with filtering and sorting  
+- 🔄 **Auto-Refresh Mode** — every 30 seconds  
+- 💻 **Clean UI** — styled with custom HTML/CSS inside Streamlit  
 
 ---
 
@@ -26,21 +23,22 @@ A full-stack airline market analytics dashboard built using **Streamlit** (front
 |-------------|----------------------|
 | Frontend    | [Streamlit](https://streamlit.io) |
 | Backend     | [FastAPI](https://fastapi.tiangolo.com) |
-| AI Engine   | [OpenAI GPT-3.5](https://platform.openai.com/) |
+| AI Engine   | [OpenAI GPT-3.5](https://platform.openai.com) |
 | Flight Data | [AviationStack API](https://aviationstack.com/) |
 | Styling     | HTML + CSS in Streamlit |
-| Deployment  | [Render](https://render.com) + [Streamlit Cloud](https://streamlit.io/cloud) |
+| Deployment  | [Render](https://render.com), [Streamlit Cloud](https://streamlit.io/cloud) |
 
 ---
 
 ## 🚀 Getting Started
 
-### 1️⃣ Clone the Repo:
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/R1N1X/airline-analytics-hub.git
 cd airline-analytics-hub
 ```
+
 ### 2️⃣ Setup Environment Variables:
 *Create a .env file in the root directory*:
 API_KEY=your_aviationstack_api_key
@@ -73,10 +71,12 @@ pip install -r requirements.txt
 
 ```bash
 # ▶️ Start FastAPI backend
-uvicorn backend.main:app --reload  # http://127.0.0.1:8000
+uvicorn backend.main:app --reload
+# Visit: http://127.0.0.1:8000/docs
 
 # ▶️ Start Streamlit frontend
-streamlit run frontend/dashboard.py  # http://localhost:8501
+streamlit run frontend/dashboard.py
+# Visit: http://localhost:8501
 
 ```
 
