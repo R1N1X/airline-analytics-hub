@@ -13,7 +13,6 @@ env/
 # --- Environment variables ---
 .env
 .env.*
-secrets.toml
 
 # --- System files ---
 .DS_Store
