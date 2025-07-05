@@ -411,8 +411,8 @@ with tab3:
 with tab4:
     st.markdown("### 🔍 Individual Flight Analysis")
     
-    if 'flight_number' in df.columns:
-        flight_numbers = sorted(df['flight_number'].unique())
+    if not df.empty and 'flight_number' in df.columns and df['flight_number'].notna().any():
+        flight_numbers = sorted(df['flight_number'].dropna().unique())
         
         col1, col2 = st.columns([2, 1])
         with col1:
